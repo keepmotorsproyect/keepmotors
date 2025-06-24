@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Keep Motors</title>
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <link rel="stylesheet" href="css/bootstrap.css" />
+
+  <title>Registro - Keep Motors</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+        @keyframes float {
+            0% { transform: translateX(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateX(0px); }
+        }
+        .floating {
+            animation: float 2s ease-in-out infinite;
+        }
+        .input-focus:focus-within {
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+        }
+        .btn-hover:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+  </style>
+  </head>
+  <body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+    <div class="max-w-md w-full space-y-8 bg-white rounded-xl shadow-2xl overflow-hidden">
+        <div class="bg-yellow-400 py-5 px-10 text-center">
+            <div class="flex justify-center mb-4">
+                <div class="bg-black-500 p-4 rounded-full shadow-lg floating">
+                    <img src="imagenes/Diseño_sin_título__2_-removebg-preview.png" width="70" height="70">
+                </div>
+            </div>
+            <h2 class="text-5xl font-extrabold text-white-900">KEEP MOTORS</h2>
+            <p class="mt-2 text-yellow-800">Bienvenido</p>
+        </div>
+    </div>
+        <div class="px-8 py-6">
+            <form class="mt-4 space-y-4" id="registerForm">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="input-focus transition-all duration-200">
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                               
+                            </div>
+                          
+                        </div>
+                    </div>
+                </div>   
+  </body>                 
+  <body>
+    <center>
+      <h1>INICIAR SESIÓN</h1>
+      <div style="height: 30px; width: 100%"></div>
+      <form>
+        <label>Correo:</label>
+        <input type="email" class="form-control" id="correo" placeholder="Ingrese su correo"/>
+        <label>contraseña:</label>
+        <input type="password" class="form-control" id="password" placeholder="Introduzca su contraseña"/>
+        <br />
+        <button type="button" class="btn btn-primary+" id="registrar">Inicia sesión</button>
+      </form>
+      <div id="resultado"></div>
+    </center>
+  </body>
+</html>
+<script>
+  $(document).ready(function () {
+    $("#registrar").click(function () {
+      parent.location = "menu.html";
+    });
+
+
+
+     $("#registrar").click(function () {
+        var correo= $("#correo").val();
+        
+        var contraseña= $("#password").val();
+        
+        var datos= {
+          "correo": correo,
+          "contraseña": contraseña
+        };
+
+          $.ajax({
+            type: "POST",
+            data: datos,
+            url: "http://127.0.0.1:8000/api/login/", 
+            success: function (valor) {
+              console.log (valor);
+            }
+
+          });
+      });
+
+   
+  });
+   
+    
+</script>
