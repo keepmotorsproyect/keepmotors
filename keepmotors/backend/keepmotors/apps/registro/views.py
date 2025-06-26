@@ -10,7 +10,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 
 from .serializers import *
 
-class loginViewset(viewsets.ModelViewSet):
+class registroViewset(viewsets.ModelViewSet):
 
     queryset = registro.objects.all()
     serializer_class = registroSerializer
