@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'apps.salida',
     'apps.tarifas',
     'apps.login',
-    'apps.resgistro'
+    'apps.registro'
 ]
 
 MIDDLEWARE = [
