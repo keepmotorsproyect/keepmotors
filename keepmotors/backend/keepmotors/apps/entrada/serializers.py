@@ -1,9 +1,7 @@
 from rest_framework import serializers
-from .models import *
-
-
-class Entradaerializer(serializers.ModelSerializer):
+from .models import entrada  
+class EntradaSerializer(serializers.ModelSerializer):  
 
     class Meta:
         model = entrada
-        fields = ('__all__')
+        fields = '__all__'

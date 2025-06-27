@@ -12,7 +12,7 @@ from .serializers import *
 class entradaViewset(viewsets.ModelViewSet):
 
     queryset = entrada.objects.all()
-    serializer_class = Entradaerializer
+    serializer_class = EntradaSerializer
 
     filter_backends = [
         DjangoFilterBackend,
