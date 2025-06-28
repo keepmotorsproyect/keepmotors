@@ -4,9 +4,9 @@ from django.db import models
 class entrada (models.Model):
     tipo_vehiculo= models.TextField(("tipo_vehiuculo"))
     placa_vehiculo= models.TextField(("placa_vehiculo"))
-    hora= models.IntegerField(("hora"))
+    hora= models.TimeField(("hora"))
     dia= models.IntegerField(("dia"))
-    mes= models.IntegerField(("mes"))
+    mes = models.CharField("mes", max_length=20)
     login_id=models.IntegerField(("login"))
     
     

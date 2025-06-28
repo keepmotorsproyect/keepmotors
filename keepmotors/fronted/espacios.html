@@ -1,77 +1,551 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Disponibilidad Parqueadero</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+    <base target="_self">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KeepMotors - Interfaz Interactiva</title>
+    <meta name="description" content="Interfaz interactiva para gestión de parqueadero KeepMotors">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: "#FEFCE8",
+                            100: "#FEF9C3",
+                            200: "#FEF08A",
+                            300: "#FDE047",
+                            400: "#FACC15",
+                            500: "#EAB308",
+                            600: "#CA8A04",
+                            700: "#A16207",
+                            800: "#854D0E",
+                            900: "#713F12"
+                        },
+                        success: "#10B981",
+                        danger: "#EF4444",
+                        info: "#3B82F6"
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .parking-spot {
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        .parking-spot:hover {
+            transform: scale(1.05);
+        }
+        .parking-spot::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: rgba(0,0,0,0.1);
+        }
+        .road {
+            background-image: repeating-linear-gradient(
+                45deg,
+                #6B7280,
+                #6B7280 10px,
+                #9CA3AF 10px,
+                #9CA3AF 20px
+            );
+        }
+    </style>
 </head>
-<body class="bg-gray-100 text-gray-800">
+<body class="bg-primary-50 min-h-screen">
+    <!-- Header -->
+    <header class="bg-primary-500 text-white shadow-lg">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex justify-between items-center">
+                <div>
+                    <h1 class="text-3xl font-bold"><i class="fas fa-car mr-2"></i> KeepMotors</h1>
+                    <p class="text-primary-200">Sistema de gestión de parqueadero interactivo</p>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="bg-primary-600 px-4 py-2 rounded-lg">
+                        <p class="text-sm">Hora actual</p>
+                        <p class="font-mono text-xl" id="currentTime">00:00:00</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
 
-  <header class="bg-blue-600 text-white py-6 text-center shadow-md">
-    <h1 class="text-3xl font-bold">Parqueadero Central - Disponibilidad</h1>
-  </header>
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Control Panel -->
+        <div class="bg-white rounded-xl shadow-md p-6 mb-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <!-- Stats Cards -->
+                <div class="bg-primary-100 p-4 rounded-lg border-l-4 border-primary-500">
+                    <p class="text-sm text-primary-800">Espacios totales</p>
+                    <p class="text-2xl font-bold" id="totalSpaces">60</p>
+                </div>
+                <div class="bg-green-100 p-4 rounded-lg border-l-4 border-green-500">
+                    <p class="text-sm text-green-800">Disponibles</p>
+                    <p class="text-2xl font-bold" id="availableSpaces">42</p>
+                </div>
+                <div class="bg-red-100 p-4 rounded-lg border-l-4 border-red-500">
+                    <p class="text-sm text-red-800">Ocupados</p>
+                    <p class="text-2xl font-bold" id="occupiedSpaces">18</p>
+                </div>
+                <div class="bg-blue-100 p-4 rounded-lg border-l-4 border-blue-500">
+                    <p class="text-sm text-blue-800">Reservados</p>
+                    <p class="text-2xl font-bold" id="reservedSpaces">0</p>
+                </div>
+            </div>
 
-  <main class="max-w-6xl mx-auto py-10 px-6 grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+            <!-- Action Buttons -->
+            <div class="mt-6 flex flex-wrap gap-4">
+                <button id="addVehicleBtn" class="bg-primary-500 hover:bg-primary-600 text-white px-4 py-2 rounded-lg flex items-center">
+                    <i class="fas fa-car-side mr-2"></i> Registrar entrada
+                </button>
+                <button id="reserveSpotBtn" class="bg-info hover:bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center">
+                    <i class="fas fa-calendar-check mr-2"></i> Reservar espacio
+                </button>
+                <button id="statsBtn" class="bg-gray-700 hover:bg-gray-800 text-white px-4 py-2 rounded-lg flex items-center">
+                    <i class="fas fa-chart-bar mr-2"></i> Estadísticas
+                </button>
+            </div>
+        </div>
 
-    <!-- Sección Carros -->
-    <section class="bg-white rounded-2xl shadow-lg p-6">
-      <h2 class="text-2xl font-semibold mb-4">🚗 Carros</h2>
-      <ul class="space-y-2">
-        <li class="flex justify-between bg-green-100 rounded p-2">
-          <span>Espacio C1</span><span class="text-green-700 font-bold">Disponible</span>
-        </li>
-        <li class="flex justify-between bg-red-100 rounded p-2">
-          <span>Espacio C2</span><span class="text-red-700 font-bold">Reservado</span>
-        </li>
-        <!-- Más espacios... -->
-      </ul>
-    </section>
+        <!-- Interactive Parking Map -->
+        <div class="bg-white rounded-xl shadow-md p-6 mb-8">
+            <h2 class="text-xl font-semibold mb-4 flex items-center">
+                <i class="fas fa-map-marked-alt mr-2 text-primary-500"></i> Mapa Interactivo del Parqueadero
+            </h2>
+            
+            <!-- Parking Lot Visualization -->
+            <div class="relative">
+                <!-- Entry Point -->
+                <div class="absolute left-1/2 -top-8 transform -translate-x-1/2 bg-gray-800 text-white px-4 py-1 rounded-t-lg text-sm">
+                    ENTRADA
+                </div>
+                
+                <!-- Main Parking Area -->
+                <div class="border-4 border-gray-800 rounded-lg p-4 bg-gray-100">
+                    <!-- Road -->
+                    <div class="road h-12 mb-4 rounded-lg flex items-center justify-center text-white font-bold">
+                        VÍA PRINCIPAL
+                    </div>
+                    
+                    <!-- Parking Rows -->
+                    <div class="grid grid-cols-1 gap-8">
+                        <!-- Row 1 -->
+                        <div class="grid grid-cols-10 gap-2">
+                            <div class="col-span-2"></div>
+                            <div class="col-span-6 grid grid-cols-6 gap-2">
+                                <!-- Parking spots facing up -->
+                                <div class="parking-spot bg-success text-white text-center py-3 rounded-lg cursor-pointer" data-spot="A1">
+                                    A1
+                                </div>
+                                <div class="parking-spot bg-success text-white text-center py-3 rounded-lg cursor-pointer" data-spot="A2">
+                                    A2
+                                </div>
+                                <div class="parking-spot bg-danger text-white text-center py-3 rounded-lg cursor-pointer" data-spot="A3">
+                                    A3
+                                </div>
+                                <div class="parking-spot bg-success text-white text-center py-3 rounded-lg cursor-pointer" data-spot="A4">
+                                    A4
+                                </div>
+                                <div class="parking-spot bg-success text-white text-center py-3 rounded-lg cursor-pointer" data-spot="A5">
+                                    A5
+                                </div>
+                                <div class="parking-spot bg-success text-white text-center py-3 rounded-lg cursor-pointer" data-spot="A6">
+                                    A6
+                                </div>
+                            </div>
+                            <div class="col-span-2"></div>
+                        </div>
+                        
+                        <!-- Row 2 -->
+                        <div class="grid grid-cols-10 gap-2">
+                            <div class="col-span-2"></div>
+                            <div class="col-span-6 grid grid-cols-6 gap-2">
+                                <!-- Parking spots facing down -->
+                                <div class="parking-spot bg-success text-white text-center py-3 rounded-lg cursor-pointer" data-spot="B1">
+                                    B1
+                                </div>
+                                <div class="parking-spot bg-success text-white text-center py-3 rounded-lg cursor-pointer" data-spot="B2">
+                                    B2
+                                </div>
+                                <div class="parking-spot bg-success text-white text-center py-3 rounded-lg cursor-pointer" data-spot="B3">
+                                    B3
+                                </div>
+                                <div class="parking-spot bg-danger text-white text-center py-3 rounded-lg cursor-pointer" data-spot="B4">
+                                    B4
+                                </div>
+                                <div class="parking-spot bg-success text-white text-center py-3 rounded-lg cursor-pointer" data-spot="B5">
+                                    B5
+                                </div>
+                                <div class="parking-spot bg-danger text-white text-center py-3 rounded-lg cursor-pointer" data-spot="B6">
+                                    B6
+                                </div>
+                            </div>
+                            <div class="col-span-2"></div>
+                        </div>
+                        
+                        <!-- Road -->
+                        <div class="road h-12 my-4 rounded-lg flex items-center justify-center text-white font-bold">
+                            VÍA SECUNDARIA
+                        </div>
+                        
+                        <!-- Row 3 -->
+                        <div class="grid grid-cols-10 gap-2">
+                            <div class="col-span-2"></div>
+                            <div class="col-span-6 grid grid-cols-6 gap-2">
+                                <!-- Parking spots facing up -->
+                                <div class="parking-spot bg-success text-white text-center py-3 rounded-lg cursor-pointer" data-spot="C1">
+                                    C1
+                                </div>
+                                <div class="parking-spot bg-success text-white text-center py-3 rounded-lg cursor-pointer" data-spot="C2">
+                                    C2
+                                </div>
+                                <div class="parking-spot bg-success text-white text-center py-3 rounded-lg cursor-pointer" data-spot="C3">
+                                    C3
+                                </div>
+                                <div class="parking-spot bg-success text-white text-center py-3 rounded-lg cursor-pointer" data-spot="C4">
+                                    C4
+                                </div>
+                                <div class="parking-spot bg-success text-white text-center py-3 rounded-lg cursor-pointer" data-spot="C5">
+                                    C5
+                                </div>
+                                <div class="parking-spot bg-success text-white text-center py-3 rounded-lg cursor-pointer" data-spot="C6">
+                                    C6
+                                </div>
+                            </div>
+                            <div class="col-span-2"></div>
+                        </div>
+                        
+                        <!-- Row 4 -->
+                        <div class="grid grid-cols-10 gap-2">
+                            <div class="col-span-2"></div>
+                            <div class="col-span-6 grid grid-cols-6 gap-2">
+                                <!-- Parking spots facing down -->
+                                <div class="parking-spot bg-success text-white text-center py-3 rounded-lg cursor-pointer" data-spot="D1">
+                                    D1
+                                </div>
+                                <div class="parking-spot bg-success text-white text-center py-3 rounded-lg cursor-pointer" data-spot="D2">
+                                    D2
+                                </div>
+                                <div class="parking-spot bg-danger text-white text-center py-3 rounded-lg cursor-pointer" data-spot="D3">
+                                    D3
+                                </div>
+                                <div class="parking-spot bg-success text-white text-center py-3 rounded-lg cursor-pointer" data-spot="D4">
+                                    D4
+                                </div>
+                                <div class="parking-spot bg-success text-white text-center py-3 rounded-lg cursor-pointer" data-spot="D5">
+                                    D5
+                                </div>
+                                <div class="parking-spot bg-success text-white text-center py-3 rounded-lg cursor-pointer" data-spot="D6">
+                                    D6
+                                </div>
+                            </div>
+                            <div class="col-span-2"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    <!-- Sección Motos -->
-    <section class="bg-white rounded-2xl shadow-lg p-6">
-      <h2 class="text-2xl font-semibold mb-4">🏍️ Motos</h2>
-      <ul class="space-y-2">
-        <li class="flex justify-between bg-green-100 rounded p-2">
-          <span>Espacio M1</span><span class="text-green-700 font-bold">Disponible</span>
-        </li>
-        <li class="flex justify-between bg-red-100 rounded p-2">
-          <span>Espacio M2</span><span class="text-red-700 font-bold">Reservado</span>
-        </li>
-      </ul>
-    </section>
+        <!-- Current Parked Vehicles -->
+        <div class="bg-white rounded-xl shadow-md p-6">
+            <h2 class="text-xl font-semibold mb-4 flex items-center">
+                <i class="fas fa-car-alt mr-2 text-primary-500"></i> Vehículos Estacionados
+            </h2>
+            
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Espacio</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Placa</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tipo</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Hora entrada</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tiempo</th>
+                            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200" id="parkedVehicles">
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap">A3</td>
+                            <td class="px-6 py-4 whitespace-nowrap">ABC123</td>
+                            <td class="px-6 py-4 whitespace-nowrap">Automóvil</td>
+                            <td class="px-6 py-4 whitespace-nowrap">08:30:45</td>
+                            <td class="px-6 py-4 whitespace-nowrap">2h 15m</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <button class="text-red-600 hover:text-red-900 mr-2">
+                                    <i class="fas fa-sign-out-alt"></i> Salida
+                                </button>
+                                <button class="text-blue-600 hover:text-blue-900">
+                                    <i class="fas fa-info-circle"></i> Detalles
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap">B4</td>
+                            <td class="px-6 py-4 whitespace-nowrap">XYZ789</td>
+                            <td class="px-6 py-4 whitespace-nowrap">Motocicleta</td>
+                            <td class="px-6 py-4 whitespace-nowrap">09:15:22</td>
+                            <td class="px-6 py-4 whitespace-nowrap">1h 30m</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <button class="text-red-600 hover:text-red-900 mr-2">
+                                    <i class="fas fa-sign-out-alt"></i> Salida
+                                </button>
+                                <button class="text-blue-600 hover:text-blue-900">
+                                    <i class="fas fa-info-circle"></i> Detalles
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap">B6</td>
+                            <td class="px-6 py-4 whitespace-nowrap">DEF456</td>
+                            <td class="px-6 py-4 whitespace-nowrap">Camioneta</td>
+                            <td class="px-6 py-4 whitespace-nowrap">10:05:11</td>
+                            <td class="px-6 py-4 whitespace-nowrap">45m</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <button class="text-red-600 hover:text-red-900 mr-2">
+                                    <i class="fas fa-sign-out-alt"></i> Salida
+                                </button>
+                                <button class="text-blue-600 hover:text-blue-900">
+                                    <i class="fas fa-info-circle"></i> Detalles
+                                </button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap">D3</td>
+                            <td class="px-6 py-4 whitespace-nowrap">GHI789</td>
+                            <td class="px-6 py-4 whitespace-nowrap">Automóvil</td>
+                            <td class="px-6 py-4 whitespace-nowrap">11:20:33</td>
+                            <td class="px-6 py-4 whitespace-nowrap">15m</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <button class="text-red-600 hover:text-red-900 mr-2">
+                                    <i class="fas fa-sign-out-alt"></i> Salida
+                                </button>
+                                <button class="text-blue-600 hover:text-blue-900">
+                                    <i class="fas fa-info-circle"></i> Detalles
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
 
-    <!-- Sección Camionetas -->
-    <section class="bg-white rounded-2xl shadow-lg p-6">
-      <h2 class="text-2xl font-semibold mb-4">🚙 Camionetas</h2>
-      <ul class="space-y-2">
-        <li class="flex justify-between bg-green-100 rounded p-2">
-          <span>Espacio V1</span><span class="text-green-700 font-bold">Disponible</span>
-        </li>
-        <li class="flex justify-between bg-red-100 rounded p-2">
-          <span>Espacio V2</span><span class="text-red-700 font-bold">Reservado</span>
-        </li>
-      </ul>
-    </section>
+    <!-- Modals -->
+    <!-- Add Vehicle Modal -->
+    <div id="addVehicleModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg p-6 w-full max-w-md">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-semibold">Registrar entrada de vehículo</h3>
+                <button id="closeAddModal" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <form id="vehicleForm">
+                <div class="mb-4">
+                    <label class="block text-gray-700 mb-2" for="plate">Placa del vehículo</label>
+                    <input type="text" id="plate" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500" placeholder="ABC123" required>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 mb-2" for="vehicleType">Tipo de vehículo</label>
+                    <select id="vehicleType" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500" required>
+                        <option value="">Seleccione...</option>
+                        <option value="car">Automóvil</option>
+                        <option value="motorcycle">Motocicleta</option>
+                        <option value="truck">Camión</option>
+                        <option value="van">Camioneta</option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 mb-2" for="parkingSpot">Espacio asignado</label>
+                    <select id="parkingSpot" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500" required>
+                        <option value="">Seleccione un espacio disponible</option>
+                        <option value="A1">A1</option>
+                        <option value="A2">A2</option>
+                        <option value="A4">A4</option>
+                        <option value="A5">A5</option>
+                        <option value="A6">A6</option>
+                        <option value="B1">B1</option>
+                        <option value="B2">B2</option>
+                        <option value="B3">B3</option>
+                        <option value="B5">B5</option>
+                        <option value="C1">C1</option>
+                        <option value="C2">C2</option>
+                        <option value="C3">C3</option>
+                        <option value="C4">C4</option>
+                        <option value="C5">C5</option>
+                        <option value="C6">C6</option>
+                        <option value="D1">D1</option>
+                        <option value="D2">D2</option>
+                        <option value="D4">D4</option>
+                        <option value="D5">D5</option>
+                        <option value="D6">D6</option>
+                    </select>
+                </div>
+                <div class="flex justify-end space-x-3">
+                    <button type="button" id="cancelAdd" class="px-4 py-2 border rounded-lg text-gray-700 hover:bg-gray-100">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="px-4 py-2 bg-primary-500 text-white rounded-lg hover:bg-primary-600">
+                        <i class="fas fa-check mr-2"></i> Confirmar
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
 
-    <!-- Sección Vehículos Eléctricos -->
-    <section class="bg-white rounded-2xl shadow-lg p-6 col-span-full">
-      <h2 class="text-2xl font-semibold mb-4">🔌 Vehículos Eléctricos</h2>
-      <ul class="space-y-2">
-        <li class="flex justify-between bg-green-100 rounded p-2">
-          <span>Espacio E1</span><span class="text-green-700 font-bold">Disponible</span>
-        </li>
-        <li class="flex justify-between bg-red-100 rounded p-2">
-          <span>Espacio E2</span><span class="text-red-700 font-bold">Reservado</span>
-        </li>
-      </ul>
-    </section>
+    <!-- Vehicle Details Modal -->
+    <div id="detailsModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg p-6 w-full max-w-md">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-xl font-semibold">Detalles del vehículo</h3>
+                <button id="closeDetailsModal" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="space-y-4">
+                <div>
+                    <p class="text-sm text-gray-500">Placa</p>
+                    <p class="font-medium" id="detailPlate">ABC123</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-500">Tipo</p>
+                    <p class="font-medium" id="detailType">Automóvil</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-500">Espacio</p>
+                    <p class="font-medium" id="detailSpot">A3</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-500">Hora de entrada</p>
+                    <p class="font-medium" id="detailEntryTime">08:30:45</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-500">Tiempo estacionado</p>
+                    <p class="font-medium" id="detailDuration">2 horas 15 minutos</p>
+                </div>
+                <div class="pt-4 border-t">
+                    <button class="w-full py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 flex items-center justify-center">
+                        <i class="fas fa-sign-out-alt mr-2"></i> Registrar salida
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-  </main>
+    <footer class="bg-primary-800 text-white py-6 mt-12">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-4 md:mb-0">
+                    <h2 class="text-xl font-bold"><i class="fas fa-car mr-2"></i> KeepMotors</h2>
+                    <p class="text-primary-200">Solución inteligente de parqueaderos</p>
+                </div>
+                <div class="flex space-x-4">
+                    <a href="#" class="hover:text-primary-300"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="hover:text-primary-300"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="hover:text-primary-300"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="mt-6 text-center text-sm text-primary-300">
+                <p>© 2023 KeepMotors. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
 
-  <footer class="text-center text-sm text-gray-500 py-4">
-    © 2025 Parqueadero Central. Todos los derechos reservados.
-  </footer>
+    <script>
+        // Update current time
+        function updateTime() {
+            const now = new Date();
+            document.getElementById('currentTime').textContent = 
+                `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}`;
+        }
+        setInterval(updateTime, 1000);
+        updateTime();
 
+        // Modal functionality
+        const addVehicleModal = document.getElementById('addVehicleModal');
+        const detailsModal = document.getElementById('detailsModal');
+        const addVehicleBtn = document.getElementById('addVehicleBtn');
+        const closeAddModal = document.getElementById('closeAddModal');
+        const cancelAdd = document.getElementById('cancelAdd');
+        const closeDetailsModal = document.getElementById('closeDetailsModal');
+
+        // Show add vehicle modal
+        addVehicleBtn.addEventListener('click', () => {
+            addVehicleModal.classList.remove('hidden');
+        });
+
+        // Close modals
+        closeAddModal.addEventListener('click', () => {
+            addVehicleModal.classList.add('hidden');
+        });
+
+        cancelAdd.addEventListener('click', () => {
+            addVehicleModal.classList.add('hidden');
+        });
+
+        closeDetailsModal.addEventListener('click', () => {
+            detailsModal.classList.add('hidden');
+        });
+
+        // Show details modal when clicking on details buttons
+        document.querySelectorAll('button:has(.fa-info-circle)').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const row = btn.closest('tr');
+                document.getElementById('detailPlate').textContent = row.cells[1].textContent;
+                document.getElementById('detailType').textContent = row.cells[2].textContent;
+                document.getElementById('detailSpot').textContent = row.cells[0].textContent;
+                document.getElementById('detailEntryTime').textContent = row.cells[3].textContent;
+                document.getElementById('detailDuration').textContent = row.cells[4].textContent;
+                detailsModal.classList.remove('hidden');
+            });
+        });
+
+        // Parking spot click functionality
+        document.querySelectorAll('.parking-spot').forEach(spot => {
+            spot.addEventListener('click', function() {
+                if (this.classList.contains('bg-danger')) {
+                    // Occupied spot - show details
+                    const spotId = this.getAttribute('data-spot');
+                    const vehicleRow = document.querySelector(`#parkedVehicles tr:has(td:first-child:contains("${spotId}"))`);
+                    if (vehicleRow) {
+                        document.getElementById('detailPlate').textContent = vehicleRow.cells[1].textContent;
+                        document.getElementById('detailType').textContent = vehicleRow.cells[2].textContent;
+                        document.getElementById('detailSpot').textContent = vehicleRow.cells[0].textContent;
+                        document.getElementById('detailEntryTime').textContent = vehicleRow.cells[3].textContent;
+                        document.getElementById('detailDuration').textContent = vehicleRow.cells[4].textContent;
+                        detailsModal.classList.remove('hidden');
+                    }
+                } else {
+                    // Available spot - open add vehicle modal with this spot selected
+                    addVehicleModal.classList.remove('hidden');
+                    document.getElementById('parkingSpot').value = this.getAttribute('data-spot');
+                }
+            });
+        });
+
+        // Form submission
+        document.getElementById('vehicleForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // In a real app, you would send this data to a server
+            alert('Vehículo registrado exitosamente!');
+            addVehicleModal.classList.add('hidden');
+            this.reset();
+        });
+    </script>
 </body>
 </html>
