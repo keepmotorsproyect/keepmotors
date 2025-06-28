@@ -1,66 +1,77 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>Menu principal</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <script src="js/jquery.js"></script>
-    <link href="css/bootstrap.min.css" rel="stylesheet" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <style>
-      .tab-item:hover .tab-icon {
-        transform: scale(1.1);
-        color: #f38a00;
-      }
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Disponibilidad Parqueadero</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800">
 
-      .tab-icon {
-        transition: all 0.2s ease;
-      }
-    </style>
-  </head>
+  <header class="bg-blue-600 text-white py-6 text-center shadow-md">
+    <h1 class="text-3xl font-bold">Parqueadero Central - Disponibilidad</h1>
+  </header>
 
-  <body class="bg-gray-100 font-sans">
-    <div class="row">
-      <div class="col-md-3">
-        <div class="flex h-screen overflow-hidden">
-          <div class="w-64 bg-white shadow-lg flex flex-col">
-            <div class="p-6 flex items-center justify-center border-b">
-              <div class="flex items-center space-x-3">
-                <img
-                  src="imagenes/logo.jpg"
-                  width="60"
-                  height="60"
-                />
-                                <span class="text-xl font-bold text-gray-800">Keep Motors</span>
-              </div>
-            </div>
+  <main class="max-w-6xl mx-auto py-10 px-6 grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
 
-            <div class="p-4 flex items-center space-x-3 border-b">
-              <div
-                class="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center"
-              >
-                <i class="fas fa-user text-gray-500"></i>
-              </div>
-              <div>
-                <p class="font-medium text-gray-800">Usuario</p>
-                <p class="text-xs text-gray-500">Bienvenido</p>
-              </div>
-            </div>
+    <!-- Sección Carros -->
+    <section class="bg-white rounded-2xl shadow-lg p-6">
+      <h2 class="text-2xl font-semibold mb-4">🚗 Carros</h2>
+      <ul class="space-y-2">
+        <li class="flex justify-between bg-green-100 rounded p-2">
+          <span>Espacio C1</span><span class="text-green-700 font-bold">Disponible</span>
+        </li>
+        <li class="flex justify-between bg-red-100 rounded p-2">
+          <span>Espacio C2</span><span class="text-red-700 font-bold">Reservado</span>
+        </li>
+        <!-- Más espacios... -->
+      </ul>
+    </section>
 
-            <div class="flex-1 overflow-y-auto py-4">
-              <nav class="space-y-1 px-4">
-                <button
-                  onclick="changeTab('entrada')"
-                  class="tab-item w-full flex items-center space-x-3 p-3 rounded-lg text-blue-50 text-gray-600"
-                >
-                  <i class="tab-icon fas fa-house text-lg"></i>
-                  <a
-                    class="nav-link active"
-                    aria-current="page"
-                    href="menu.html"
-                    ><span class="font-medium">Regresar</span></a
-                  >
-                </button>
+    <!-- Sección Motos -->
+    <section class="bg-white rounded-2xl shadow-lg p-6">
+      <h2 class="text-2xl font-semibold mb-4">🏍️ Motos</h2>
+      <ul class="space-y-2">
+        <li class="flex justify-between bg-green-100 rounded p-2">
+          <span>Espacio M1</span><span class="text-green-700 font-bold">Disponible</span>
+        </li>
+        <li class="flex justify-between bg-red-100 rounded p-2">
+          <span>Espacio M2</span><span class="text-red-700 font-bold">Reservado</span>
+        </li>
+      </ul>
+    </section>
+
+    <!-- Sección Camionetas -->
+    <section class="bg-white rounded-2xl shadow-lg p-6">
+      <h2 class="text-2xl font-semibold mb-4">🚙 Camionetas</h2>
+      <ul class="space-y-2">
+        <li class="flex justify-between bg-green-100 rounded p-2">
+          <span>Espacio V1</span><span class="text-green-700 font-bold">Disponible</span>
+        </li>
+        <li class="flex justify-between bg-red-100 rounded p-2">
+          <span>Espacio V2</span><span class="text-red-700 font-bold">Reservado</span>
+        </li>
+      </ul>
+    </section>
+
+    <!-- Sección Vehículos Eléctricos -->
+    <section class="bg-white rounded-2xl shadow-lg p-6 col-span-full">
+      <h2 class="text-2xl font-semibold mb-4">🔌 Vehículos Eléctricos</h2>
+      <ul class="space-y-2">
+        <li class="flex justify-between bg-green-100 rounded p-2">
+          <span>Espacio E1</span><span class="text-green-700 font-bold">Disponible</span>
+        </li>
+        <li class="flex justify-between bg-red-100 rounded p-2">
+          <span>Espacio E2</span><span class="text-red-700 font-bold">Reservado</span>
+        </li>
+      </ul>
+    </section>
+
+  </main>
+
+  <footer class="text-center text-sm text-gray-500 py-4">
+    © 2025 Parqueadero Central. Todos los derechos reservados.
+  </footer>
+
+</body>
+</html>

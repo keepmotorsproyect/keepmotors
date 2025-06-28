@@ -11,8 +11,7 @@
         theme: {
           extend: {
             colors: {
-              primary: "#3b82f6",
-              secondary: "#10b981",
+              primary: "#f38a00",
               danger: "#ef4444",
             },
           },
@@ -141,24 +140,42 @@
               </div>
             </div>
           </div>
-
-       
+          
           <div class="input-box bg-white border border-gray-200 rounded-lg p-6">
-            <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
-              <img src="imagenes/Diseño_sin_título__2_-removebg-preview.png" alt="Reloj" class="vehicle-icon" />
-              Horario de Ingreso
-            </h2>
-            <div>
-              <label for="entryDateTime" class="block text-sm font-medium text-gray-700 mb-1">Fecha y hora</label>
-              <input
-                type="datetime-local"
-                id="entryDateTime"
-                name="entryDateTime"
-                required
-                class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary"
-              />
-            </div>
-          </div>
+                <div class="grid grid-cols-3 gap-4 mb-4">
+                    <div>
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="hour">
+                            Hora
+                        </label>
+                        <input type="time" id="hour" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary" required>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="day">
+                            Día
+                        </label>
+                        <input type="number" id="day" min="1" max="31" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary" placeholder="DD" required>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="month">
+                            Mes
+                        </label>
+                        <select id="month" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary" required>
+                            <option value="">MM</option>
+                            <option value="1">Enero</option>
+                            <option value="2">Febrero</option>
+                            <option value="3">Marzo</option>
+                            <option value="4">Abril</option>
+                            <option value="5">Mayo</option>
+                            <option value="6">Junio</option>
+                            <option value="7">Julio</option>
+                            <option value="8">Agosto</option>
+                            <option value="9">Septiembre</option>
+                            <option value="10">Octubre</option>
+                            <option value="11">Noviembre</option>
+                            <option value="12">Diciembre</option>
+                        </select>
+                    </div>
+                </div>
 
           <div class="flex justify-end">
             <button
@@ -180,31 +197,36 @@
     $("#ingreso").click(function (event) {
       event.preventDefault(); 
 
- 
       var tipo_vehiculo = $("input[name='vehicleType']:checked").val();
       var placa_vehiculo = $("#plate").val();
-      var h_d_m = new Date($("#entryDateTime").val()).getHours(); 
+      var hora = new Date($("#hour").val()).getHours(); 
+      var dia = $("#day").val();   // No uses new Date aquí
+      var mes = $("#month").val(); // No uses new Date aquí
       var login_id = 1; 
 
       var datos = {
         "tipo_vehiculo": tipo_vehiculo,
         "placa_vehiculo": placa_vehiculo,
-        "h_d_m": h_d_m,
+        "hora": hora,
+        "dia": dia,
+        "mes": mes,
         "login_id": login_id,
       };
 
       console.log("Datos enviados:", datos);
+
       $.ajax({
         type: "POST",
         url: "http://127.0.0.1:8000/api/entrada/",
-        data:(datos),
+        data: datos,
         success: function (response) {
           alert("Ingreso registrado correctamente.");
           console.log(response);
         },
-
-        },
-      );
+        error: function (xhr, status, error) {
+          console.error("Error en la solicitud:", error);
+        }
+      });
     });
   });
 </script>
