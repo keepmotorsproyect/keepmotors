@@ -192,7 +192,7 @@
 
         var tipo_vehiculo = $("input[name='vehicleType']:checked").val();
         var placa_vehiculo = $("#plate").val().toUpperCase();
-        var hora = $("#hour").val(); // Guarda "HH:MM"
+        var hora = $("#hour").val(); 
         var dia = $("#day").val();
 
         var mesNumero = $("#month").val();
@@ -200,7 +200,7 @@
           "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
           "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
         ];
-        var mes = nombresMeses[parseInt(mesNumero) - 1]; // Guarda nombre
+        var mes = nombresMeses[parseInt(mesNumero) - 1]; 
 
         var login_id = 1;
 
