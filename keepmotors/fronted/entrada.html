@@ -227,13 +227,13 @@
           contentType: "application/json",
           success: function (response) {
             alert("Ingreso registrado correctamente.");
-            console.log(response);
+            console.log(response); parent.location = "espacios.html"
           },
           error: function (xhr, status, error) {
             console.error("Error en la solicitud:", error);
             console.log(xhr.responseText);
           }
-        });
+        ,});
       });
     });
   </script>
