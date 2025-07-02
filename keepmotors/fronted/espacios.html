@@ -70,31 +70,29 @@
   <!-- Modal selector -->
   <div id="selectorModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
     <div class="bg-white rounded p-6 w-72 text-center">
-      <h3 class="text-lg font-semibold mb-4">Editar Espacio</h3>
+      <h3 class="text-lg font-semibold mb-4">¿Quieres ocupar este espacio?</h3>
 
-      <label class="block mb-1 text-sm text-left">Estado del espacio:</label>
-      <select id="stateSelector" class="w-full border rounded p-2 mb-4">
-        <option value="">Selecciona un estado</option>
-        <option value="available">Disponible</option>
-        <option value="occupied">Ocupado</option>
-        <option value="reserved">Reservado</option>
-        <option value="maintenance">Mantenimiento</option>
-      </select>
-
-      <label class="block mb-1 text-sm text-left">Tipo de vehículo:</label>
-      <select id="vehicleTypeSelector" class="w-full border rounded p-2 mb-4">
-       
-      </select>
+   
+      
+      <div id="vehicleTypeSelector">
+        
+        
+      </div>
 
       <div class="flex justify-between">
-        <button id="cancelBtn" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">Cancelar</button>
-        <button id="confirmBtn" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">Confirmar</button>
+        <button id="cancelBtn" class="px-10 py-3 bg-red-500 rounded hover:bg-gray-400">No</button>
+        <button id="confirmBtn" class="px-10 py-3 bg-green-500 text-white rounded hover:bg-green-600">Si</button>
       </div>
     </div>
   </div>
 
   <script>
-    const states = ['available', 'occupied', 'reserved', 'maintenance'];
+
+const urlParams = new URLSearchParams(window.location.search);
+const placa = urlParams.get('placa');
+    
+
+const states = ['available', 'occupied', 'reserved', 'maintenance'];
     const colors = {
       available: 'bg-green-500',
       occupied: 'bg-red-500',
@@ -130,7 +128,7 @@
         count[space.status]++;
         const box = document.createElement('div');
         box.className = 'bg-white p-3 rounded shadow text-center cursor-pointer hover:ring-2';
-        box.innerHTML = `
+        box.innerHTML = ` 
           <div class="text-2xl mb-2 ${colors[space.status]}"><i class="fas fa-car text-white p-2 rounded-full"></i></div>
           <p class="text-sm font-medium">Espacio ${space.id}</p>
           <p class="text-xs text-gray-500">${translateStatus(space.status)}</p>
@@ -138,8 +136,8 @@
         `;
         box.addEventListener('click', () => {
           currentSpaceId = space.id;
-          stateSelector.value = space.status;
           vehicleTypeSelector.value = space.vehicleType || '';
+          document.getElementById('vehicleTypeSelector').textContent = placa
           selectorModal.classList.remove('hidden');
         });
         container.appendChild(box);
@@ -154,21 +152,17 @@
 
     cancelBtn.addEventListener('click', () => {
       selectorModal.classList.add('hidden');
-      stateSelector.value = '';
       vehicleTypeSelector.value = '';
       currentSpaceId = null;
     });
 
-    confirmBtn.addEventListener('click', () => {
-      const newState = stateSelector.value;
-      const vehicleType = vehicleTypeSelector.value;
-      if (states.includes(newState) && currentSpaceId !== null) {
-        const space = spaces.find(s => s.id === currentSpaceId);
-        if (space) {
-          space.status = newState;
-          space.vehicleType = vehicleType;
-          renderSpaces();
-        }
+   confirmBtn.addEventListener('click', () => {
+  if (currentSpaceId !== null) {
+    const space = spaces.find(s => s.id === currentSpaceId);
+    if (space) {
+      space.status = 'ocupado'; 
+      renderSpaces(); 
+    }
         fetch(`http://localhost:8000/api/espacios/${currentSpaceId}/`, {
           method: 'PATCH',
           headers: { 'Content-Type': 'application/json' },
@@ -185,7 +179,6 @@
         .catch(err => alert('Error al guardar en el servidor'));
       }
       selectorModal.classList.add('hidden');
-      stateSelector.value = '';
       vehicleTypeSelector.value = '';
       currentSpaceId = null;
     });

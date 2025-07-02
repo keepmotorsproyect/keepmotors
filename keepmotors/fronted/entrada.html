@@ -219,7 +219,7 @@
           contentType: "application/json",
           success: function (response) {
             alert("Ingreso registrado correctamente.");
-            console.log(response); parent.location = "espacios.html"
+            console.log(response); parent.location = "espacios.html?placa="+placa_vehiculo
           },
           error: function (xhr, status, error) {
             console.error("Error en la solicitud:", error);
