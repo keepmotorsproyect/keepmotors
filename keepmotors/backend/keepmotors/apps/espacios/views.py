@@ -1,24 +1,17 @@
-from django.shortcuts import render
-
-# Create your views here.
-from rest_framework import viewsets
-from .models import *
-
-from rest_framework import filters
+from rest_framework import viewsets, filters
 from django_filters.rest_framework import DjangoFilterBackend
+from .models import Espacio
+from .serializers import EspacioSerializer
 
-from .serializers import *
-
-class espaciosViewset(viewsets.ModelViewSet):
-
-    queryset = espacios.objects.all()
-    serializer_class = espaciosSerializer
+class EspacioViewSet(viewsets.ModelViewSet):
+    queryset = Espacio.objects.all()
+    serializer_class = EspacioSerializer
 
     filter_backends = [
         DjangoFilterBackend,
         filters.SearchFilter,
         filters.OrderingFilter,
     ]
-    filterset_fields = ('__all__')
-    search_fields = ('__all__')
-    ordering_fields = ('__all__')
+    filterset_fields = '__all__'
+    search_fields = '__all__'
+    ordering_fields = '__all__'

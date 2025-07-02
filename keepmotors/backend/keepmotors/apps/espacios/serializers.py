@@ -1,9 +1,7 @@
 from rest_framework import serializers
-from .models import *
+from .models import Espacio
 
-
-class espaciosSerializer(serializers.ModelSerializer):
-
+class EspacioSerializer(serializers.ModelSerializer):
     class Meta:
-        model = espacios
-        fields = ('__all__')
+        model = Espacio
+        fields = '__all__'

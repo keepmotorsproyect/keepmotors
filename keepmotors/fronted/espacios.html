@@ -42,7 +42,7 @@
       <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
         <div class="bg-white p-4 rounded shadow text-center">
           <p class="text-gray-600">Total</p>
-          <p class="text-2xl font-bold" id="total">120</p>
+          <p class="text-2xl font-bold" id="total">0</p>
         </div>
         <div class="bg-white p-4 rounded shadow text-center">
           <p class="text-gray-600">Disponibles</p>
@@ -83,10 +83,7 @@
 
       <label class="block mb-1 text-sm text-left">Tipo de vehículo:</label>
       <select id="vehicleTypeSelector" class="w-full border rounded p-2 mb-4">
-        <option value="">Ninguno</option>
-        <option value="eléctrico">Eléctrico</option>
-        <option value="discapacitado">Discapacitado</option>
-        <option value="motocicleta">Motocicleta</option>
+       
       </select>
 
       <div class="flex justify-between">
@@ -97,7 +94,6 @@
   </div>
 
   <script>
-    const totalSpaces = 120;
     const states = ['available', 'occupied', 'reserved', 'maintenance'];
     const colors = {
       available: 'bg-green-500',
@@ -113,12 +109,7 @@
       maintenance: 'Mantenimiento'
     };
 
-    const spaces = Array.from({ length: totalSpaces }, (_, i) => ({
-      id: i + 1,
-      status: i < 75 ? 'occupied' : i < 87 ? 'reserved' : i < 95 ? 'maintenance' : 'available',
-      vehicleType: ''
-    }));
-
+    const spaces = [];
     const container = document.getElementById('spacesContainer');
     const selectorModal = document.getElementById('selectorModal');
     const stateSelector = document.getElementById('stateSelector');
@@ -140,16 +131,15 @@
         const box = document.createElement('div');
         box.className = 'bg-white p-3 rounded shadow text-center cursor-pointer hover:ring-2';
         box.innerHTML = `
-          <div class="w-4 h-4 mx-auto mb-2 rounded-full ${colors[space.status]}"></div>
+          <div class="text-2xl mb-2 ${colors[space.status]}"><i class="fas fa-car text-white p-2 rounded-full"></i></div>
           <p class="text-sm font-medium">Espacio ${space.id}</p>
           <p class="text-xs text-gray-500">${translateStatus(space.status)}</p>
           <p class="text-xs text-gray-400 italic">${space.vehicleType || 'Sin tipo'}</p>
         `;
         box.addEventListener('click', () => {
           currentSpaceId = space.id;
-          const current = spaces.find(s => s.id === currentSpaceId);
-          stateSelector.value = current.status;
-          vehicleTypeSelector.value = current.vehicleType || '';
+          stateSelector.value = space.status;
+          vehicleTypeSelector.value = space.vehicleType || '';
           selectorModal.classList.remove('hidden');
         });
         container.appendChild(box);
@@ -159,7 +149,7 @@
       document.getElementById('occupied').textContent = count.occupied;
       document.getElementById('reserved').textContent = count.reserved;
       document.getElementById('maintenance').textContent = count.maintenance;
-      document.getElementById('total').textContent = totalSpaces;
+      document.getElementById('total').textContent = spaces.length;
     }
 
     cancelBtn.addEventListener('click', () => {
@@ -179,6 +169,20 @@
           space.vehicleType = vehicleType;
           renderSpaces();
         }
+        fetch(`http://localhost:8000/api/espacios/${currentSpaceId}/`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            estado: newState,
+            tipo_vehiculo: vehicleType
+          })
+        })
+        .then(response => {
+          if (!response.ok) throw new Error('Error al actualizar');
+          return response.json();
+        })
+        .then(data => console.log('Actualizado:', data))
+        .catch(err => alert('Error al guardar en el servidor'));
       }
       selectorModal.classList.add('hidden');
       stateSelector.value = '';
@@ -186,7 +190,25 @@
       currentSpaceId = null;
     });
 
-    renderSpaces();
+    async function fetchAndRenderSpaces() {
+      try {
+        const res = await fetch('http://localhost:8000/api/espacios/');
+        if (!res.ok) throw new Error('Error al cargar espacios');
+        const data = await res.json();
+        spaces.length = 0;
+        data.forEach(item => spaces.push({
+          id: item.id,
+          status: item.estado,
+          vehicleType: item.tipo_vehiculo || ''
+        }));
+        renderSpaces();
+      } catch (error) {
+        alert('No se pudo cargar la información desde el servidor');
+        console.error(error);
+      }
+    }
+
+    fetchAndRenderSpaces();
   </script>
 </body>
 </html>
