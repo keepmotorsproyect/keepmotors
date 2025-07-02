@@ -24,8 +24,8 @@
 
   <body class="bg-gray-100 font-sans">
     <div class="row">
-      <div class="col-md-3">
-        <div class="flex h-screen overflow-hidden">
+      <div class="col-md-3 h-screen ">
+        <div class="flex h-full">
           <div class="w-64 bg-white shadow-lg flex flex-col">
             <div class="p-6 flex items-center justify-center border-b">
               <div class="flex items-center space-x-3">
@@ -166,6 +166,126 @@
         <h1 style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; font-size: 50px; color: #f38a00;">Bienvenido a Keep Motors</h1>
         <p style="font-family: 'Times New Roman', Times, serif; font-size: 30px; color: black;">
         </p>
+        <br>
+        <main class="container mx-auto px-4 py-12">
+        <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">Nuestros Servicios</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Item 1 -->
+            <div class="menu-item bg-white rounded-xl overflow-hidden hover:bg-primary-light cursor-pointer" onclick="showModal('Estacionamiento regular')">
+                <div class="p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-primary-light rounded-full p-3 mr-4">
+                            <i class="fas fa-car text-2xl text-primary-dark"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800">Estacionamiento regular</h3>
+                    </div>
+                    <p class="text-gray-600 mb-4">Espacios amplios para todo tipo de vehículos con vigilancia permanente.</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-primary-dark font-bold">Desde $3.000/h</span>
+                        <button class="text-primary-dark hover:text-primary-dark" type="button" class="btn btn-primary+" id="3000">></button>   
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Item 2 -->
+            <div class="menu-item bg-white rounded-xl overflow-hidden hover:bg-primary-light cursor-pointer" onclick="showModal('Estacionamiento VIP')">
+                <div class="p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-primary-light rounded-full p-3 mr-4">
+                            <i class="fas fa-star text-2xl text-primary-dark"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800">Estacionamiento VIP</h3>
+                    </div>
+                    <p class="text-gray-600 mb-4">Espacios exclusivos con cobertura y servicio de lavado incluido.</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-primary-dark font-bold">Desde $6.000/h</span>
+                        <button class="text-primary-dark hover:text-primary-dark">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Item 3 -->
+            <div class="menu-item bg-white rounded-xl overflow-hidden hover:bg-primary-light cursor-pointer" onclick="showModal('Lavado express')">
+                <div class="p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-primary-light rounded-full p-3 mr-4">
+                            <i class="fas fa-soap text-2xl text-primary-dark"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800">Lavado express</h3>
+                    </div>
+                    <p class="text-gray-600 mb-4">Servicio rápido de lavado mientras estacionas tu vehículo.</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-primary-dark font-bold">$12.000</span>
+                        <button class="text-primary-dark hover:text-primary-dark">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Item 4 -->
+            <div class="menu-item bg-white rounded-xl overflow-hidden hover:bg-primary-light cursor-pointer" onclick="showModal('Mantenimiento')">
+                <div class="p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-primary-light rounded-full p-3 mr-4">
+                            <i class="fas fa-tools text-2xl text-primary-dark"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800">Mantenimiento</h3>
+                    </div>
+                    <p class="text-gray-600 mb-4">Servicio básico de mantenimiento mientras tu auto está con nosotros.</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-primary-dark font-bold">Desde $25.000</span>
+                        <button class="text-primary-dark hover:text-primary-dark">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Item 5 -->
+            <div class="menu-item bg-white rounded-xl overflow-hidden hover:bg-primary-light cursor-pointer" onclick="showModal('Reserva mensual')">
+                <div class="p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-primary-light rounded-full p-3 mr-4">
+                            <i class="fas fa-calendar-alt text-2xl text-primary-dark"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800">Reserva mensual</h3>
+                    </div>
+                    <p class="text-gray-600 mb-4">Espacio garantizado todo el mes con descuentos especiales.</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-primary-dark font-bold">Desde $100.000/mes</span>
+                        <button class="text-primary-dark hover:text-primary-dark">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Item 6 -->
+            <div class="menu-item bg-white rounded-xl overflow-hidden hover:bg-primary-light cursor-pointer" onclick="showModal('Servicio de valet')">
+                <div class="p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-primary-light rounded-full p-3 mr-4">
+                            <i class="fas fa-user-tie text-2xl text-primary-dark"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800">Servicio de valet</h3>
+                    </div>
+                    <p class="text-gray-600 mb-4">Deja tu auto con nuestro personal especializado al llegar.</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-primary-dark font-bold">$5.000 adicional</span>
+                        <button class="text-primary-dark hover:text-primary-dark">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+   
     </center>
       </div>
 
@@ -173,3 +293,10 @@
     </div>
   </body>
 </html>
+<script>
+    $(document).ready(function () {
+    $("#3000").click(function () {
+      parent.location = "membresias.html";
+    });
+  })
+</script>
