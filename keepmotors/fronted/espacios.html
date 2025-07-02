@@ -2,48 +2,16 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>KeepMotors - Parqueadero</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-  <style>
-    .tab-item:hover .tab-icon {
-      transform: scale(1.1);
-      color: #f38a00;
-    }
-    .tab-icon {
-      transition: all 0.2s ease;
-    }
-    .menu-item {
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-    }
-    .menu-item:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-    }
-    .pulse-animation {
-      animation: pulse 2s infinite;
-    }
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.05); }
-    }
-    .sidebar {
-      width: 260px;
-      background-color: #fff;
-      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-    }
-    .content {
-      margin-left: 260px;
-    }
-  </style>
 </head>
-<body class="bg-gray-100 font-sans">
+<body class="bg-gray-100 font-sans relative">
   <div class="flex min-h-screen">
     <!-- Sidebar -->
-    <aside class="sidebar flex flex-col">
-      <div class="p-6 flex items-center justify-center border-b">
+    <aside class="w-64 bg-white shadow-lg">
+      <div class="p-6 border-b">
         <div class="flex items-center space-x-3">
           <img src="imagenes/logo.jpg" width="60" height="60" />
           <span class="text-xl font-bold text-gray-800">Keep Motors</span>
@@ -58,137 +26,167 @@
           <p class="text-xs text-gray-500">Bienvenido</p>
         </div>
       </div>
-      <nav class="flex-1 overflow-y-auto py-4 space-y-1 px-4">
-        <button onclick="location.href='menu.html'" class="tab-item w-full flex items-center space-x-3 p-3 rounded-lg text-gray-600 hover:bg-gray-100">
-          <i class="tab-icon fas fa-house text-lg"></i>
+      <nav class="p-4">
+        <button onclick="location.href='menu.html'" class="flex items-center space-x-3 p-3 w-full text-gray-600 hover:bg-gray-100 rounded">
+          <i class="fas fa-house text-lg"></i>
           <span class="font-medium">Regresar</span>
         </button>
       </nav>
     </aside>
 
     <!-- Main Content -->
-    <main class="content flex-1">
-      <!-- Aquí puedes insertar todo el contenido del parqueadero y reservas -->
-      <!-- Parking Spaces Control -->
-    <section class="py-12 bg-white">
-        <div class="container mx-auto px-4">
-            <h2 class="text-3xl font-bold text-center mb-8 text-gray-800">Control de Espacios</h2>
-            
-            <div class="bg-gray-100 rounded-xl p-6 mb-8">
-                <div class="flex justify-between items-center mb-4">
-                    <h3 class="text-xl font-bold">Disponibilidad en tiempo real</h3>
-                    <div class="flex items-center">
-                        <div class="w-3 h-3 bg-green-500 rounded-full mr-2"></div>
-                        <span id="availableSpaces" class="font-medium">45 espacios libres</span>
-                    </div>
-                </div>
-                
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <div class="bg-white p-4 rounded-lg shadow text-center">
-                        <p class="text-gray-600 mb-1">Total</p>
-                        <p class="text-2xl font-bold text-primary-dark">120</p>
-                    </div>
-                    <div class="bg-white p-4 rounded-lg shadow text-center">
-                        <p class="text-gray-600 mb-1">Ocupados</p>
-                        <p id="occupiedSpaces" class="text-2xl font-bold text-red-500">75</p>
-                    </div>
-                    <div class="bg-white p-4 rounded-lg shadow text-center">
-                        <p class="text-gray-600 mb-1">Reservados</p>
-                        <p id="reservedSpaces" class="text-2xl font-bold text-yellow-500">12</p>
-                    </div>
-                    <div class="bg-white p-4 rounded-lg shadow text-center">
-                        <p class="text-gray-600 mb-1">Mantenimiento</p>
-                        <p id="maintenanceSpaces" class="text-2xl font-bold text-blue-500">8</p>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-                <!-- Spaces will be generated dynamically -->
-            </div>
-            
-            <div class="mt-8 text-center">
-                <button id="refreshBtn" class="bg-primary-dark text-white px-6 py-2 rounded-lg font-bold hover:bg-yellow-600 transition">
-                    <i class="fas fa-sync-alt mr-2"></i> Actualizar
-                </button>
-            </div>
-        </div>
-    </section>
+    <main class="flex-1 p-8 bg-white">
+      <h2 class="text-3xl font-bold text-center mb-8 text-gray-800">Control de Espacios</h2>
 
-       <script>
-        // Parking Spaces Controller
-        document.addEventListener('DOMContentLoaded', function() {
-            const parkingSpaces = 120;
-            let available = 45;
-            let occupied = 75;
-            let reserved = 12;
-            let maintenance = 8;
-            
-            const spacesContainer = document.querySelector('.grid.grid-cols-2.md\\:grid-cols-3.lg\\:grid-cols-5');
-            const availableDisplay = document.getElementById('availableSpaces');
-            const occupiedDisplay = document.getElementById('occupiedSpaces');
-            const reservedDisplay = document.getElementById('reservedSpaces');
-            const maintenanceDisplay = document.getElementById('maintenanceSpaces');
-            const refreshBtn = document.getElementById('refreshBtn');
-            
-            function updateSpaces() {
-                // Simulate random changes
-                const change = Math.floor(Math.random() * 5) - 2; // -2 to +2
-                available = Math.max(0, Math.min(parkingSpaces, available + change));
-                occupied = Math.max(0, Math.min(parkingSpaces - reserved - maintenance, occupied - change));
-                
-                // Update displays
-                availableDisplay.textContent = `${available} espacios libres`;
-                occupiedDisplay.textContent = occupied;
-                reservedDisplay.textContent = reserved;
-                maintenanceDisplay.textContent = maintenance;
-                
-                // Generate parking spaces visualization
-                spacesContainer.innerHTML = '';
-                for (let i = 1; i <= parkingSpaces; i++) {
-                    const space = document.createElement('div');
-                    space.className = 'parking-space p-3 rounded-lg shadow text-center cursor-pointer transition';
-                    
-                    let status = 'available';
-                    let statusText = 'Disponible';
-                    
-                    if (i <= occupied) {
-                        status = 'occupied';
-                        statusText = 'Ocupado';
-                    } else if (i <= occupied + reserved) {
-                        status = 'reserved';
-                        statusText = 'Reservado';
-                    } else if (i <= occupied + reserved + maintenance) {
-                        status = 'maintenance';
-                        statusText = 'Mantenimiento';
-                    }
-                    
-                    space.innerHTML = `
-                        <div class="w-4 h-4 rounded-full mx-auto mb-2 
-                            ${status === 'available' ? 'bg-green-500' : 
-                              status === 'occupied' ? 'bg-red-500' : 
-                              status === 'reserved' ? 'bg-yellow-500' : 'bg-blue-500'}"></div>
-                        <p class="text-sm font-medium">Espacio ${i}</p>
-                        <p class="text-xs text-gray-500">${statusText}</p>
-                    `;
-                    
-                    space.addEventListener('click', () => {
-                        alert(`Espacio ${i} - Estado: ${statusText}`);
-                    });
-                    
-                    spacesContainer.appendChild(space);
-                }
-            }
-            
-            // Initial load
-            updateSpaces();
-            
-            // Refresh button
-            refreshBtn.addEventListener('click', updateSpaces);
-            
-            // Auto-update every 30 seconds
-            setInterval(updateSpaces, 30000);
+      <!-- Contadores -->
+      <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
+        <div class="bg-white p-4 rounded shadow text-center">
+          <p class="text-gray-600">Total</p>
+          <p class="text-2xl font-bold" id="total">120</p>
+        </div>
+        <div class="bg-white p-4 rounded shadow text-center">
+          <p class="text-gray-600">Disponibles</p>
+          <p class="text-2xl font-bold text-green-500" id="available">0</p>
+        </div>
+        <div class="bg-white p-4 rounded shadow text-center">
+          <p class="text-gray-600">Ocupados</p>
+          <p class="text-2xl font-bold text-red-500" id="occupied">0</p>
+        </div>
+        <div class="bg-white p-4 rounded shadow text-center">
+          <p class="text-gray-600">Reservados</p>
+          <p class="text-2xl font-bold text-yellow-500" id="reserved">0</p>
+        </div>
+        <div class="bg-white p-4 rounded shadow text-center">
+          <p class="text-gray-600">Mantenimiento</p>
+          <p class="text-2xl font-bold text-blue-500" id="maintenance">0</p>
+        </div>
+      </div>
+
+      <!-- Espacios -->
+      <div id="spacesContainer" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4"></div>
+    </main>
+  </div>
+
+  <!-- Modal selector -->
+  <div id="selectorModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white rounded p-6 w-72 text-center">
+      <h3 class="text-lg font-semibold mb-4">Editar Espacio</h3>
+
+      <label class="block mb-1 text-sm text-left">Estado del espacio:</label>
+      <select id="stateSelector" class="w-full border rounded p-2 mb-4">
+        <option value="">Selecciona un estado</option>
+        <option value="available">Disponible</option>
+        <option value="occupied">Ocupado</option>
+        <option value="reserved">Reservado</option>
+        <option value="maintenance">Mantenimiento</option>
+      </select>
+
+      <label class="block mb-1 text-sm text-left">Tipo de vehículo:</label>
+      <select id="vehicleTypeSelector" class="w-full border rounded p-2 mb-4">
+        <option value="">Ninguno</option>
+        <option value="eléctrico">Eléctrico</option>
+        <option value="discapacitado">Discapacitado</option>
+        <option value="motocicleta">Motocicleta</option>
+      </select>
+
+      <div class="flex justify-between">
+        <button id="cancelBtn" class="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400">Cancelar</button>
+        <button id="confirmBtn" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">Confirmar</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const totalSpaces = 120;
+    const states = ['available', 'occupied', 'reserved', 'maintenance'];
+    const colors = {
+      available: 'bg-green-500',
+      occupied: 'bg-red-500',
+      reserved: 'bg-yellow-500',
+      maintenance: 'bg-blue-500'
+    };
+
+    const statusES = {
+      available: 'Disponible',
+      occupied: 'Ocupado',
+      reserved: 'Reservado',
+      maintenance: 'Mantenimiento'
+    };
+
+    const spaces = Array.from({ length: totalSpaces }, (_, i) => ({
+      id: i + 1,
+      status: i < 75 ? 'occupied' : i < 87 ? 'reserved' : i < 95 ? 'maintenance' : 'available',
+      vehicleType: ''
+    }));
+
+    const container = document.getElementById('spacesContainer');
+    const selectorModal = document.getElementById('selectorModal');
+    const stateSelector = document.getElementById('stateSelector');
+    const vehicleTypeSelector = document.getElementById('vehicleTypeSelector');
+    const cancelBtn = document.getElementById('cancelBtn');
+    const confirmBtn = document.getElementById('confirmBtn');
+    let currentSpaceId = null;
+
+    function translateStatus(status) {
+      return statusES[status] || status;
+    }
+
+    function renderSpaces() {
+      container.innerHTML = '';
+      const count = { available: 0, occupied: 0, reserved: 0, maintenance: 0 };
+
+      spaces.forEach(space => {
+        count[space.status]++;
+        const box = document.createElement('div');
+        box.className = 'bg-white p-3 rounded shadow text-center cursor-pointer hover:ring-2';
+        box.innerHTML = `
+          <div class="w-4 h-4 mx-auto mb-2 rounded-full ${colors[space.status]}"></div>
+          <p class="text-sm font-medium">Espacio ${space.id}</p>
+          <p class="text-xs text-gray-500">${translateStatus(space.status)}</p>
+          <p class="text-xs text-gray-400 italic">${space.vehicleType || 'Sin tipo'}</p>
+        `;
+        box.addEventListener('click', () => {
+          currentSpaceId = space.id;
+          const current = spaces.find(s => s.id === currentSpaceId);
+          stateSelector.value = current.status;
+          vehicleTypeSelector.value = current.vehicleType || '';
+          selectorModal.classList.remove('hidden');
         });
-    </script>
+        container.appendChild(box);
+      });
+
+      document.getElementById('available').textContent = count.available;
+      document.getElementById('occupied').textContent = count.occupied;
+      document.getElementById('reserved').textContent = count.reserved;
+      document.getElementById('maintenance').textContent = count.maintenance;
+      document.getElementById('total').textContent = totalSpaces;
+    }
+
+    cancelBtn.addEventListener('click', () => {
+      selectorModal.classList.add('hidden');
+      stateSelector.value = '';
+      vehicleTypeSelector.value = '';
+      currentSpaceId = null;
+    });
+
+    confirmBtn.addEventListener('click', () => {
+      const newState = stateSelector.value;
+      const vehicleType = vehicleTypeSelector.value;
+      if (states.includes(newState) && currentSpaceId !== null) {
+        const space = spaces.find(s => s.id === currentSpaceId);
+        if (space) {
+          space.status = newState;
+          space.vehicleType = vehicleType;
+          renderSpaces();
+        }
+      }
+      selectorModal.classList.add('hidden');
+      stateSelector.value = '';
+      vehicleTypeSelector.value = '';
+      currentSpaceId = null;
+    });
+
+    renderSpaces();
+  </script>
 </body>
 </html>
