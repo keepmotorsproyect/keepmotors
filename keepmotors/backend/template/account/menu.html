@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Menu principal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="js/jquery.js"></script>
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      .tab-item:hover .tab-icon {
+        transform: scale(1.1);
+        color: #f38a00;
+      }
+
+      .tab-icon {
+        transition: all 0.2s ease;
+      }
+    </style>
+  </head>
+
+  <body class="bg-gray-100 font-sans">
+    <div class="row">
+      <div class="col-md-3 h-screen ">
+        <div class="flex h-full">
+          <div class="w-64 bg-white shadow-lg flex flex-col">
+            <div class="p-6 flex items-center justify-center border-b">
+              <div class="flex items-center space-x-3">
+                <img
+                  src="imagenes/logo.jpg"
+                  width="60"
+                  height="60"
+                />
+                <span class="text-xl font-bold text-gray-800">Keep Motors</span>
+              </div>
+            </div>
+
+            <div class="p-4 flex items-center space-x-3 border-b">
+              <div
+                class="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center"
+              >
+                <i class="fas fa-user text-gray-500"></i>
+              </div>
+              <div>
+                <p class="font-medium text-gray-800">Usuario</p>
+                <p class="text-xs text-gray-500">Bienvenido</p>
+              </div>
+            </div>
+
+            <div class="flex-1 overflow-y-auto py-4">
+              <nav class="space-y-1 px-4">
+                <button
+                  onclick="changeTab('entrada')"
+                  class="tab-item w-full flex items-center space-x-3 p-3 rounded-lg text-blue-50 text-gray-600"
+                >
+                  <i class="tab-icon fas fa-flag text-lg"></i>
+                  <a
+                    class="nav-link active"
+                    aria-current="page"
+                    href="entrada.html"
+                    ><span class="font-medium">Entrada</span></a
+                  >
+                </button>
+
+                <button
+                  onclick="changeTab('spaces')"
+                  class="tab-item w-full flex items-center space-x-3 p-3 rounded-lg text-gray-600 hover:bg-gray-50"
+                >
+                  <i class="tab-icon fas fa-map-marker text-lg"></i>
+                  <a
+                    class="nav-link active"
+                    aria-current="page"
+                    href="espacios.html"
+                    ><span class="font-medium">Espacios</span></a
+                  >
+                </button>
+                <button
+                  onclick="changeTab('spaces')"
+                  class="tab-item w-full flex items-center space-x-3 p-3 rounded-lg text-gray-600 hover:bg-gray-50"
+                >
+                  <i class="tab-icon fas fa-car text-lg"></i>
+                  <a
+                    class="nav-link active"
+                    aria-current="page"
+                    href="salida.html"
+                    ><span class="font-medium">Salida</span></a
+                  >
+                </button>
+                <button
+                  onclick="changeTab('reservations')"
+                  class="tab-item w-full flex items-center space-x-3 p-3 rounded-lg text-gray-600 hover:bg-gray-50"
+                >
+                  <i class="tab-icon fas fa-calendar-check text-lg"></i>
+                  <a
+                    class="nav-link active"
+                    aria-current="page"
+                    href="reservas.html"
+                    ><span class="font-medium">Reservas</span></a
+                  >
+                </button>
+
+                <button
+                  onclick="changeTab('clients')"
+                  class="tab-item w-full flex items-center space-x-3 p-3 rounded-lg text-gray-600 hover:bg-gray-50"
+                >
+                  <i class="tab-icon fas fa-users text-lg"></i>
+                  <a
+                    class="nav-link active"
+                    aria-current="page"
+                    href="membresias.html"
+                    ><span class="font-medium">Membresias</span></a
+                  >
+                </button>
+
+                <button
+                  onclick="changeTab('payments')"
+                  class="tab-item w-full flex items-center space-x-3 p-3 rounded-lg text-gray-600 hover:bg-gray-50"
+                >
+                  <i class="tab-icon fas fa-credit-card text-lg"></i>
+                  <a
+                    class="nav-link active"
+                    aria-current="page"
+                    href="pagos.html"
+                    ><span class="font-medium">Tarifas</span></a
+                  >
+                </button>
+
+                <button
+                  onclick="changeTab('reports')"
+                  class="tab-item w-full flex items-center space-x-3 p-3 rounded-lg text-gray-600 hover:bg-gray-50"
+                >
+                  <i class="tab-icon fas fa-chart-bar text-lg"></i>
+                  <a
+                    class="nav-link active"
+                    aria-current="page"
+                    href="reportes.html"
+                    ><span class="font-medium">Reportes</span></a
+                  >
+                </button>
+
+                <button
+                  onclick="changeTab('settings')"
+                  class="tab-item w-full flex items-center space-x-3 p-3 rounded-lg text-gray-600 hover:bg-gray-50"
+                >
+                  <i class="tab-icon fas fa-cog text-lg"></i>
+                  <a
+                    class="nav-link active"
+                    aria-current="page"
+                    href="configuracion.html"
+                    ><span class="font-medium">Configuracion</span></a
+                  >
+                </button>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="col-md-8">
+     <center>
+        
+        <h1 style="font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; font-size: 50px; color: #f38a00;">Bienvenido a Keep Motors</h1>
+        <p style="font-family: 'Times New Roman', Times, serif; font-size: 30px; color: black;">
+        </p>
+        <br>
+        <main class="container mx-auto px-4 py-12">
+        <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">Nuestros Servicios</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Item 1 -->
+            <div class="menu-item bg-white rounded-xl overflow-hidden hover:bg-primary-light cursor-pointer" onclick="showModal('Estacionamiento regular')">
+                <div class="p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-primary-light rounded-full p-3 mr-4">
+                            <i class="fas fa-car text-2xl text-primary-dark"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800">Estacionamiento regular</h3>
+                    </div>
+                    <p class="text-gray-600 mb-4">Espacios amplios para todo tipo de vehículos con vigilancia permanente.</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-primary-dark font-bold">Desde $3.000/h</span>
+                        <button class="text-primary-dark hover:text-primary-dark" type="button" class="btn btn-primary+" id="3000">></button>   
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Item 2 -->
+            <div class="menu-item bg-white rounded-xl overflow-hidden hover:bg-primary-light cursor-pointer" onclick="showModal('Estacionamiento VIP')">
+                <div class="p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-primary-light rounded-full p-3 mr-4">
+                            <i class="fas fa-star text-2xl text-primary-dark"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800">Estacionamiento VIP</h3>
+                    </div>
+                    <p class="text-gray-600 mb-4">Espacios exclusivos con cobertura y servicio de lavado incluido.</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-primary-dark font-bold">Desde $6.000/h</span>
+                        <button class="text-primary-dark hover:text-primary-dark">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Item 3 -->
+            <div class="menu-item bg-white rounded-xl overflow-hidden hover:bg-primary-light cursor-pointer" onclick="showModal('Lavado express')">
+                <div class="p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-primary-light rounded-full p-3 mr-4">
+                            <i class="fas fa-soap text-2xl text-primary-dark"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800">Lavado express</h3>
+                    </div>
+                    <p class="text-gray-600 mb-4">Servicio rápido de lavado mientras estacionas tu vehículo.</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-primary-dark font-bold">$12.000</span>
+                        <button class="text-primary-dark hover:text-primary-dark">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Item 4 -->
+            <div class="menu-item bg-white rounded-xl overflow-hidden hover:bg-primary-light cursor-pointer" onclick="showModal('Mantenimiento')">
+                <div class="p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-primary-light rounded-full p-3 mr-4">
+                            <i class="fas fa-tools text-2xl text-primary-dark"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800">Mantenimiento</h3>
+                    </div>
+                    <p class="text-gray-600 mb-4">Servicio básico de mantenimiento mientras tu auto está con nosotros.</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-primary-dark font-bold">Desde $25.000</span>
+                        <button class="text-primary-dark hover:text-primary-dark">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Item 5 -->
+            <div class="menu-item bg-white rounded-xl overflow-hidden hover:bg-primary-light cursor-pointer" onclick="showModal('Reserva mensual')">
+                <div class="p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-primary-light rounded-full p-3 mr-4">
+                            <i class="fas fa-calendar-alt text-2xl text-primary-dark"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800">Reserva mensual</h3>
+                    </div>
+                    <p class="text-gray-600 mb-4">Espacio garantizado todo el mes con descuentos especiales.</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-primary-dark font-bold">Desde $100.000/mes</span>
+                        <button class="text-primary-dark hover:text-primary-dark">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Item 6 -->
+            <div class="menu-item bg-white rounded-xl overflow-hidden hover:bg-primary-light cursor-pointer" onclick="showModal('Servicio de valet')">
+                <div class="p-6">
+                    <div class="flex items-center mb-4">
+                        <div class="bg-primary-light rounded-full p-3 mr-4">
+                            <i class="fas fa-user-tie text-2xl text-primary-dark"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-800">Servicio de valet</h3>
+                    </div>
+                    <p class="text-gray-600 mb-4">Deja tu auto con nuestro personal especializado al llegar.</p>
+                    <div class="flex justify-between items-center">
+                        <span class="text-primary-dark font-bold">$5.000 adicional</span>
+                        <button class="text-primary-dark hover:text-primary-dark">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+   
+    </center>
+      </div>
+
+      </div>
+    </div>
+  </body>
+</html>
+<script>
+    $(document).ready(function () {
+    $("#3000").click(function () {
+      parent.location = "membresias.html";
+    });
+  })
+</script>

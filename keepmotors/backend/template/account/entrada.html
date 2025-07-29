@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Menu principal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="js/jquery.js"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              primary: "#f38a00",
+              danger: "#ef4444",
+            },
+          },
+        },
+      };
+    </script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      .tab-item:hover .tab-icon {
+        transform: scale(1.1);
+        color: #f38a00;
+      }
+      .tab-icon {
+        transition: all 0.2s ease;
+      }
+      .input-box {
+        transition: all 0.3s ease;
+      }
+      .input-box:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      }
+      .vehicle-icon {
+        width: 40px;
+        height: 40px;
+        margin-right: 10px;
+      }
+    </style>
+  </head>
+
+  <body class="bg-gray-100 font-sans h-screen flex">
+    <aside class="w-64 bg-white shadow-lg flex flex-col">
+      <div class="p-6 flex items-center justify-center border-b">
+        <div class="flex items-center space-x-3">
+          <img src="imagenes/logo.jpg" width="60" height="60" />
+          <span class="text-xl font-bold text-gray-800">Keep Motors</span>
+        </div>
+      </div>
+
+      <div class="p-4 flex items-center space-x-3 border-b">
+        <div class="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
+          <i class="fas fa-user text-gray-500"></i>
+        </div>
+        <div>
+          <p class="font-medium text-gray-800">Usuario</p>
+          <p class="text-xs text-gray-500">Bienvenido</p>
+        </div>
+      </div>
+
+      <nav class="flex-1 overflow-y-auto py-4 space-y-1 px-4">
+        <a
+          href="menu.html"
+          class="tab-item w-full flex items-center space-x-3 p-3 rounded-lg text-gray-600 hover:bg-gray-100"
+        >
+          <i class="tab-icon fas fa-house text-lg"></i>
+          <span class="font-medium">Regresar</span>
+        </a>
+      </nav>
+    </aside>
+
+    <main class="flex-1 flex items-center justify-center p-6 overflow-auto">
+      <div class="max-w-md w-full bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="bg-primary py-4 px-6">
+          <h1 class="text-2xl font-bold text-white">Sistema de Parqueadero</h1>
+          <p class="text-white opacity-80">Registro de ingreso de vehículos</p>
+        </div>
+
+        <form id="parkingForm" class="p-6 space-y-6">
+          <div class="input-box bg-white border border-gray-200 rounded-lg p-6">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+              <img src="imagenes/Diseño_sin_título__2_-removebg-preview.png" alt="Vehículo" class="vehicle-icon" />
+              Tipo de Vehículo
+            </h2>
+            <div class="space-y-4">
+              <div class="flex items-center space-x-3">
+                <input type="radio" id="carro" name="vehicleType" value="carro" class="h-5 w-5 text-primary" required />
+                <label for="car" class="text-gray-700">Automovil</label>
+              </div>
+              <div class="flex items-center space-x-3">
+                <input type="radio" id="motorcycle" name="vehicleType" value="Motocicleta" class="h-5 w-5 text-primary" />
+                <label for="motorcycle" class="text-gray-700">Moto</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="input-box bg-white border border-gray-200 rounded-lg p-6">
+            <h2 class="text-xl font-semibold text-gray-800 mb-4 flex items-center">
+              <img src="imagenes/Diseño_sin_título__2_-removebg-preview.png" alt="Placa" class="vehicle-icon" />
+              Datos del Vehículo
+            </h2>
+            <div class="space-y-4">
+              <div>
+                <label for="plate" class="block text-sm font-medium text-gray-700 mb-1">Placa del vehículo</label>
+                <input
+                  type="text"
+                  id="plate"
+                  name="plate"
+                  required
+                  class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary uppercase"
+                  placeholder="Ej: ABC123"
+                  pattern="[A-Za-z0-9]{6}"
+                  title="La placa debe contener 6 caracteres alfanuméricos"
+                />
+              </div>
+              <div>
+                <label for="owner" class="block text-sm font-medium text-gray-700 mb-1">Propietario (opcional)</label>
+                <input
+                  type="text"
+                  id="owner"
+                  name="owner"
+                  class="w-full px-4 py-2 border border-gray-300 rounded-md focus:ring-primary focus:border-primary"
+                  placeholder="Nombre del propietario"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="input-box bg-white border border-gray-200 rounded-lg p-6">
+            <div class="grid grid-cols-3 gap-4 mb-4">
+              <div>
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="hour">Hora</label>
+                <input type="time" id="hour" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary" required>
+              </div>
+              <div>
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="day">Día</label>
+                <input type="number" id="day" min="1" max="31" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary" placeholder="DD" required>
+              </div>
+              <div>
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="month">Mes</label>
+                <select id="month" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary" required>
+                  <option value="">MM</option>
+                  <option value="1">Enero</option>
+                  <option value="2">Febrero</option>
+                  <option value="3">Marzo</option>
+                  <option value="4">Abril</option>
+                  <option value="5">Mayo</option>
+                  <option value="6">Junio</option>
+                  <option value="7">Julio</option>
+                  <option value="8">Agosto</option>
+                  <option value="9">Septiembre</option>
+                  <option value="10">Octubre</option>
+                  <option value="11">Noviembre</option>
+                  <option value="12">Diciembre</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="flex justify-end">
+              <button
+                type="button"
+                id="ingreso"
+                class="px-6 py-3 bg-primary text-white font-medium rounded-md hover:bg-yellow-400 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary transition-colors"
+              >
+                Registrar Ingreso
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </main>
+  </body>
+
+  <script>
+    $(document).ready(function () {
+      $("#ingreso").click(function (event) {
+        event.preventDefault();
+
+        var tipo_vehiculo = $("input[name='vehicleType']:checked").val();
+        var placa_vehiculo = $("#plate").val().toUpperCase();
+        var hora = $("#hour").val(); 
+        var dia = $("#day").val();
+
+        var mesNumero = $("#month").val();
+        var nombresMeses = [
+          "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
+          "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"
+        ];
+        var mes = nombresMeses[parseInt(mesNumero) - 1]; 
+
+        var login_id = 1;
+
+        if (!tipo_vehiculo || !placa_vehiculo || !hora || !dia || !mes) {
+          alert("Por favor, completa todos los campos requeridos.");
+          return;
+        }
+
+        var datos = {
+          tipo_vehiculo,
+          placa_vehiculo,
+          hora,
+          dia,
+          mes,
+          login_id
+        };
+
+        console.log("Datos enviados:", datos);
+
+        $.ajax({
+          type: "POST",
+          url: "http://127.0.0.1:8000/api/entrada/",
+          data: JSON.stringify(datos),
+          contentType: "application/json",
+          success: function (response) {
+            alert("Ingreso registrado correctamente.");
+            console.log(response); parent.location = "espacios.html?placa="+placa_vehiculo
+          },
+          error: function (xhr, status, error) {
+            console.error("Error en la solicitud:", error);
+            console.log(xhr.responseText);
+          }
+        ,});
+      });
+    });
+  </script>
+</html>

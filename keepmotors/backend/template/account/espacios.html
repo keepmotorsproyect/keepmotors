@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>KeepMotors - Parqueadero</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 font-sans relative">
+  <div class="flex min-h-screen">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-white shadow-lg">
+      <div class="p-6 border-b">
+        <div class="flex items-center space-x-3">
+          <img src="imagenes/logo.jpg" width="60" height="60" />
+          <span class="text-xl font-bold text-gray-800">Keep Motors</span>
+        </div>
+      </div>
+      <div class="p-4 flex items-center space-x-3 border-b">
+        <div class="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center">
+          <i class="fas fa-user text-gray-500"></i>
+        </div>
+        <div>
+          <p class="font-medium text-gray-800">Usuario</p>
+          <p class="text-xs text-gray-500">Bienvenido</p>
+        </div>
+      </div>
+      <nav class="p-4">
+        <button onclick="location.href='menu.html'" class="flex items-center space-x-3 p-3 w-full text-gray-600 hover:bg-gray-100 rounded">
+          <i class="fas fa-house text-lg"></i>
+          <span class="font-medium">Regresar</span>
+        </button>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-8 bg-white">
+      <h2 class="text-3xl font-bold text-center mb-8 text-gray-800">Control de Espacios</h2>
+
+      <!-- Contadores -->
+      <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
+        <div class="bg-white p-4 rounded shadow text-center">
+          <p class="text-gray-600">Total</p>
+          <p class="text-2xl font-bold" id="total">0</p>
+        </div>
+        <div class="bg-white p-4 rounded shadow text-center">
+          <p class="text-gray-600">Disponibles</p>
+          <p class="text-2xl font-bold text-green-500" id="available">0</p>
+        </div>
+        <div class="bg-white p-4 rounded shadow text-center">
+          <p class="text-gray-600">Ocupados</p>
+          <p class="text-2xl font-bold text-red-500" id="occupied">0</p>
+        </div>
+        <div class="bg-white p-4 rounded shadow text-center">
+          <p class="text-gray-600">Reservados</p>
+          <p class="text-2xl font-bold text-yellow-500" id="reserved">0</p>
+        </div>
+        <div class="bg-white p-4 rounded shadow text-center">
+          <p class="text-gray-600">Mantenimiento</p>
+          <p class="text-2xl font-bold text-blue-500" id="maintenance">0</p>
+        </div>
+      </div>
+
+      <!-- Espacios -->
+      <div id="spacesContainer" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4"></div>
+    </main>
+  </div>
+
+  <!-- Modal selector -->
+  <div id="selectorModal" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white rounded p-6 w-72 text-center">
+      <h3 class="text-lg font-semibold mb-4">¿Quieres ocupar este espacio?</h3>
+
+   
+      
+      <div id="vehicleTypeSelector">
+        
+        
+      </div>
+
+      <div class="flex justify-between">
+        <button id="cancelBtn" class="px-10 py-3 bg-red-500 rounded hover:bg-gray-400">No</button>
+        <button id="confirmBtn" class="px-10 py-3 bg-green-500 text-white rounded hover:bg-green-600">Si</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+
+const urlParams = new URLSearchParams(window.location.search);
+const placa = urlParams.get('placa');
+    
+
+const states = ['available', 'occupied', 'reserved', 'maintenance'];
+    const colors = {
+      available: 'bg-green-500',
+      occupied: 'bg-red-500',
+      reserved: 'bg-yellow-500',
+      maintenance: 'bg-blue-500'
+    };
+
+    const statusES = {
+      available: 'Disponible',
+      occupied: 'Ocupado',
+      reserved: 'Reservado',
+      maintenance: 'Mantenimiento'
+    };
+
+    const spaces = [];
+    const container = document.getElementById('spacesContainer');
+    const selectorModal = document.getElementById('selectorModal');
+    const stateSelector = document.getElementById('stateSelector');
+    const vehicleTypeSelector = document.getElementById('vehicleTypeSelector');
+    const cancelBtn = document.getElementById('cancelBtn');
+    const confirmBtn = document.getElementById('confirmBtn');
+    let currentSpaceId = null;
+
+    function translateStatus(status) {
+      return statusES[status] || status;
+    }
+
+    function renderSpaces() {
+      container.innerHTML = '';
+      const count = { available: 0, occupied: 0, reserved: 0, maintenance: 0 };
+
+      spaces.forEach(space => {
+        count[space.status]++;
+        const box = document.createElement('div');
+        box.className = 'bg-white p-3 rounded shadow text-center cursor-pointer hover:ring-2';
+        box.innerHTML = ` 
+          <div class="text-2xl mb-2 ${colors[space.status]}"><i class="fas fa-car text-white p-2 rounded-full"></i></div>
+          <p class="text-sm font-medium">Espacio ${space.id}</p>
+          <p class="text-xs text-gray-500">${translateStatus(space.status)}</p>
+          <p class="text-xs text-gray-400 italic">${space.vehicleType || 'Sin tipo'}</p>
+        `;
+        box.addEventListener('click', () => {
+          currentSpaceId = space.id;
+          vehicleTypeSelector.value = space.vehicleType || '';
+          document.getElementById('vehicleTypeSelector').textContent = placa
+          selectorModal.classList.remove('hidden');
+        });
+        container.appendChild(box);
+      });
+
+      document.getElementById('available').textContent = count.available;
+      document.getElementById('occupied').textContent = count.occupied;
+      document.getElementById('reserved').textContent = count.reserved;
+      document.getElementById('maintenance').textContent = count.maintenance;
+      document.getElementById('total').textContent = spaces.length;
+    }
+
+    cancelBtn.addEventListener('click', () => {
+      selectorModal.classList.add('hidden');
+      vehicleTypeSelector.value = '';
+      currentSpaceId = null;
+    });
+
+   confirmBtn.addEventListener('click', () => {
+  if (currentSpaceId !== null) {
+    const space = spaces.find(s => s.id === currentSpaceId);
+    if (space) {
+      space.status = 'ocupado'; 
+      renderSpaces(); 
+    }
+        fetch(`http://localhost:8000/api/espacios/${currentSpaceId}/`, {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            estado: newState,
+            tipo_vehiculo: vehicleType
+          })
+        })
+        .then(response => {
+          if (!response.ok) throw new Error('Error al actualizar');
+          return response.json();
+        })
+        .then(data => console.log('Actualizado:', data))
+        .catch(err => alert('Error al guardar en el servidor'));
+      }
+      selectorModal.classList.add('hidden');
+      vehicleTypeSelector.value = '';
+      currentSpaceId = null;
+    });
+
+    async function fetchAndRenderSpaces() {
+      try {
+        const res = await fetch('http://localhost:8000/api/espacios/');
+        if (!res.ok) throw new Error('Error al cargar espacios');
+        const data = await res.json();
+        spaces.length = 0;
+        data.forEach(item => spaces.push({
+          id: item.id,
+          status: item.estado,
+          vehicleType: item.tipo_vehiculo || ''
+        }));
+        renderSpaces();
+      } catch (error) {
+        alert('No se pudo cargar la información desde el servidor');
+        console.error(error);
+      }
+    }
+
+    fetchAndRenderSpaces();
+  </script>
+</body>
+</html>
