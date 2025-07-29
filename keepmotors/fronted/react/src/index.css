@@ -40,7 +40,7 @@ h1 {
 
 button {
   border-radius: 10px;
-  border: 1px solid transparent;
+  border: 1px orangered;
   padding: 0.6em 1.2em;
   font-size: 1em;
   font-weight: 500;
