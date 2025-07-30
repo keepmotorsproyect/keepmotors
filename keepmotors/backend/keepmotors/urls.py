@@ -16,10 +16,36 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from django.login import*
+from apps.login.views import *
+from apps.entrada.views import *
+from apps.espacios.views import *
+from apps.membresia.views import *
+from apps.registro.views import *
+from apps.salida.views import *
+from apps.tarifas.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('apps.api.routers')),
-    path('login/', auth_views.LoginView.as_view(template_name='registration/login.html'),
+
+    path('login/', loginViewset.as_view(template_name='login/login.html'),
 name='login'),
+
+ path('entrada/', entradaViewset.as_view(template_name='entrada/entrada.html'),
+name='entrada'),
+
+ path('espacios/', EspacioViewSet.as_view(template_name='espacios/espacios.html'),
+name='espacios'),
+
+ path('membresia/', membresiaViewset.as_view(template_name='membresia/membresias.html'),
+name='membresia'),
+
+ path('registro/', registroViewset.as_view(template_name='registro/registro.html'),
+name='espacios'),
+
+ path('salida/', salidaViewset.as_view(template_name='salida/salida.html'),
+name='salida'),
+
+ path('tarifa/', tarifaViewset.as_view(template_name='tarifa/tarifas.html'),
+name='espacios'),
+
 ]
