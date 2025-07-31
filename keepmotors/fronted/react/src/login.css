@@ -3,32 +3,27 @@ background-color: rgb(253, 217, 100);
 border-radius: 40px;
 border-color: orangered;
 padding: 50px 60px;
+background: linear-gradient(90deg, #ffd000, #fa924d);
 
 }
 
 h6{
 font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 font-size: 35px;
-color: orange;
-border-color: black;
-border-width: 5px;
-border-right: 5px;
+color: rgb(0, 0, 0);
 }
 
 h5{
 font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 font-size: 35px;
-color: orange;
-border-color: black;
-border-width: 5px;
-border-right: 5px;
+color: rgb(2, 1, 0);
 }
-
+ 
 button{
     padding: 15px 30px;
     font-size: 16px;
     color: white;
-    background: linear-gradient(90deg, #ff0066, #ff6600);
+    background: linear-gradient(90deg, #ff0066, #fa8d45);
     border: none;
     border-radius: 50px;
     cursor: pointer;
@@ -36,4 +31,14 @@ button{
     transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
     
+
+h1{
+
+font-size: 45px;
+font-weight: 10px;
+color: #ff6600;
+font-style: oblique;
+font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
+}
+
 

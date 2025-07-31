@@ -27,7 +27,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('apps.api.routers')),
 
-    path('login/', loginViewset.as_view(template_name='login/login.html'),
+    path('/', loginViewset.as_view(template_name='login/login.html'),
 name='login'),
 
  path('entrada/', entradaViewset.as_view(template_name='entrada/entrada.html'),
